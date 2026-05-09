@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anurag Kumar — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --bg: #0B0B0B;
+    --surface: #141414;
+    --surface2: #1C1C1C;
+    --border: rgba(201,168,76,0.18);
+    --text: #F0EDE8;
+    --muted: #7A7671;
+    --accent: #C9A84C;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 60px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(11,11,11,0.92);
+    border-bottom-color: var(--border);
+    backdrop-filter: blur(12px);
+    padding: 18px 60px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(120px, 18vw, 280px);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.06);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+    letter-spacing: -0.04em;
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 32px; font-weight: 600;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.2vw, 28px);
+    font-weight: 300;
+    color: var(--muted);
+    font-style: italic;
+    margin: 24px 0 48px;
+    line-height: 1.5;
+    max-width: 480px;
+  }
+  .hero-cta-row { display: flex; gap: 20px; align-items: center; }
+  .btn-primary {
+    background: var(--gold);
+    color: #000;
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-101%);
+    transition: transform 0.3s ease;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-ghost {
+    color: var(--text);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.3s;
+  }
+  .btn-ghost::after { content: '↗'; font-size: 16px; transition: transform 0.3s; }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost:hover::after { transform: translate(3px,-3px); }
+
+  /* Hero stats */
+  .hero-right {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; gap: 20px;
+    padding-left: 80px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(30px);
+    animation: slideInRight 0.6s ease forwards;
+  }
+  .stat-card:nth-child(1) { animation-delay: 0.3s; }
+  .stat-card:nth-child(2) { animation-delay: 0.5s; }
+  .stat-card:nth-child(3) { animation-delay: 0.7s; }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 700;
+    line-height: 1; color: var(--gold);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 6px; font-weight: 500;
+  }
+
+  @keyframes slideInRight {
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+  .hero-eyebrow { animation-delay: 0.1s; }
+  .hero-name { animation-delay: 0.2s; }
+  .hero-tagline { animation-delay: 0.35s; }
+  .hero-cta-row { animation-delay: 0.5s; }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex; align-items: center; gap: 24px;
+    padding: 0 60px;
+    margin: 0 0 80px;
+  }
+  .section-divider span {
+    font-size: 10px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold);
+    white-space: nowrap; font-weight: 600;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--border);
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 60px; position: relative; }
+
+  .section-header {
+    margin-bottom: 64px;
+  }
+  .section-num {
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-num::after { content: ''; flex: 0 0 32px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(240,237,232,0.85);
+    margin-bottom: 24px;
+  }
+  .about-text p strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .about-right { display: flex; flex-direction: column; gap: 16px; }
+  .info-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .info-label {
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 600; min-width: 100px;
+  }
+  .info-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--text);
+    font-weight: 400;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .skill-tag {
+    font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  .skill-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  .project-card {
+    background: var(--surface);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    transition: background 0.4s ease;
+    border: 1px solid transparent;
+    group: true;
+  }
+  .project-card:hover { background: var(--surface2); border-color: var(--border); }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-tag {
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold);
+    font-weight: 600; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .project-tag::before { content: '●'; font-size: 6px; }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 600;
+    line-height: 1.15; margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-title { color: var(--gold-light); }
+  .project-desc {
+    font-size: 14px; color: var(--muted);
+    line-height: 1.7; font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold);
+    font-weight: 600;
+    transition: gap 0.3s;
+  }
+  .project-card:hover .project-link { gap: 16px; }
+  .project-arrow { font-size: 16px; }
+  .project-number {
+    position: absolute; bottom: 40px; right: 48px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px; font-weight: 700;
+    color: rgba(201,168,76,0.05);
+    line-height: 1;
+    pointer-events: none;
+    transition: color 0.4s;
+  }
+  .project-card:hover .project-number { color: rgba(201,168,76,0.1); }
+
+  /* Featured project (full width) */
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .project-card.featured .project-title { font-size: 44px; }
+  .project-card.featured .project-number {
+    position: static;
+    font-size: 120px;
+    color: rgba(201,168,76,0.06);
+    text-align: right;
+    align-self: center;
+  }
+
+  /* EXPERIENCE */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .exp-item:first-child { border-top: 1px solid var(--border); }
+  .exp-period {
+    font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 500; padding-top: 6px;
+  }
+  .exp-content {}
+  .exp-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 600;
+    margin-bottom: 4px; letter-spacing: -0.01em;
+  }
+  .exp-company {
+    color: var(--gold); font-size: 13px;
+    letter-spacing: 0.08em; font-weight: 600;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .exp-points li {
+    font-size: 14px; color: var(--muted);
+    line-height: 1.65; padding-left: 20px;
+    position: relative;
+  }
+  .exp-points li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--gold); font-size: 12px;
+  }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .ach-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .ach-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .ach-icon {
+    font-size: 28px; margin-bottom: 16px;
+  }
+  .ach-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    margin-bottom: 10px; line-height: 1.2;
+  }
+  .ach-desc {
+    font-size: 13px; color: var(--muted);
+    line-height: 1.65;
+  }
+  .ach-badge {
+    display: inline-block;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    margin-top: 16px;
+    font-weight: 600;
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .contact-left .big-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 5.5vw, 72px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+  .contact-left .big-text em { font-style: italic; color: var(--gold); }
+  .contact-email {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    display: inline-block;
+    transition: border-color 0.3s;
+  }
+  .contact-email:hover { border-color: var(--gold); }
+  .contact-right { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item {
+    padding: 28px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 20px;
+    text-decoration: none; color: var(--text);
+    transition: all 0.3s;
+  }
+  .contact-item:hover { border-color: var(--gold); background: var(--surface2); }
+  .contact-item-icon { font-size: 24px; }
+  .contact-item-label {
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 600; margin-bottom: 4px;
+  }
+  .contact-item-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+  }
+  .contact-item-arrow {
+    margin-left: auto;
+    color: var(--gold); font-size: 20px;
+    transition: transform 0.3s;
+  }
+  .contact-item:hover .contact-item-arrow { transform: translate(4px,-4px); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--muted);
+  }
+  .footer-copy {
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase;
+  }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* ── HAMBURGER MENU ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 200;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--gold);
+    transition: all 0.35s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11,11,11,0.98);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: color 0.3s, opacity 0.4s ease, transform 0.4s ease;
+  }
+  .mobile-menu.open a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+  .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+  .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+  .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+  .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu-close-hint {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 16px;
+    opacity: 0; transition: opacity 0.4s 0.3s ease;
+  }
+  .mobile-menu.open .mobile-menu-close-hint { opacity: 1; }
+
+  /* ── TABLET (max 1024px) ── */
+  @media (max-width: 1024px) {
+    nav { padding: 24px 40px; }
+    nav.scrolled { padding: 16px 40px; }
+    .hero { padding: 110px 40px 70px; gap: 40px; }
+    section { padding: 80px 40px; }
+    .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-right { padding-left: 40px; }
+  }
+
+  /* ── MOBILE (max 768px) ── */
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+
+    /* Nav */
+    nav { padding: 18px 20px; }
+    nav.scrolled { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    /* Hero — single column, tighter */
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 90px 20px 56px;
+      gap: 36px;
+      min-height: auto;
+    }
+    .hero-bg-text { display: none; }
+    .hero-eyebrow { font-size: 10px; margin-bottom: 20px; }
+    .hero-eyebrow::before { width: 24px; }
+    .hero-name { font-size: clamp(52px, 14vw, 72px); }
+    .hero-tagline { font-size: clamp(16px, 4.5vw, 20px); margin: 16px 0 32px; }
+    .hero-cta-row { gap: 16px; flex-wrap: wrap; }
+    .btn-primary { padding: 13px 26px; font-size: 11px; }
+
+    /* Stats — horizontal scrollable row */
+    .hero-right {
+      padding-left: 0;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 12px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .hero-right::-webkit-scrollbar { display: none; }
+    .stat-card {
+      min-width: 160px;
+      flex-shrink: 0;
+      padding: 20px 20px 20px 24px;
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .stat-number { font-size: 36px; }
+    .stat-label { font-size: 10px; }
+
+    /* Sections */
+    section { padding: 60px 20px; }
+    .section-divider { padding: 0 20px; }
+    .section-title { font-size: clamp(32px, 9vw, 48px); }
+
+    /* About */
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-text p { font-size: 19px; }
+    .info-label { min-width: 84px; font-size: 9px; }
+    .info-value { font-size: 15px; word-break: break-word; }
+    .info-row { gap: 12px; }
+
+    /* Projects */
+    .projects-grid { grid-template-columns: 1fr; gap: 2px; }
+    .project-card { padding: 32px 24px; }
+    .project-card.featured {
+      grid-column: span 1;
+      display: block;
+    }
+    .project-card.featured .project-title { font-size: 28px; }
+    .project-card.featured .project-number { display: none; }
+    .project-title { font-size: 26px; }
+    .project-number { font-size: 52px; bottom: 24px; right: 24px; }
+
+    /* Experience */
+    .exp-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 32px 0;
+    }
+    .exp-period {
+      font-size: 10px;
+      padding-top: 0;
+      color: var(--gold);
+    }
+    .exp-role { font-size: 22px; }
+    .exp-points li { font-size: 13px; }
+
+    /* Achievements */
+    .achievements-grid { grid-template-columns: 1fr; gap: 16px; }
+    .ach-card { padding: 28px 24px; }
+    .ach-title { font-size: 20px; }
+
+    /* Contact */
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+    .contact-left .big-text { font-size: clamp(34px, 10vw, 52px); }
+    .contact-email { font-size: 15px; word-break: break-all; }
+    .contact-item { padding: 20px 20px; gap: 14px; }
+    .contact-item-value { font-size: 14px; word-break: break-all; }
+
+    /* Footer */
+    footer {
+      padding: 28px 20px;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+    .footer-name { font-size: 16px; }
+    .footer-copy { font-size: 10px; }
+  }
+
+  /* ── VERY SMALL (max 380px) ── */
+  @media (max-width: 380px) {
+    .hero { padding: 80px 16px 48px; }
+    section { padding: 52px 16px; }
+    .stat-card { min-width: 140px; }
+    .stat-number { font-size: 30px; }
+    .project-card { padding: 28px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">AK</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#achievements">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#projects" class="mobile-nav-link">Projects</a>
+  <a href="#experience" class="mobile-nav-link">Experience</a>
+  <a href="#achievements" class="mobile-nav-link">Awards</a>
+  <a href="#contact" class="mobile-nav-link">Contact</a>
+  <span class="mobile-menu-close-hint">tap anywhere to close</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">ANURAG</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">IPM Student · IIM Jammu · Batch 05</div>
+    <h1 class="hero-name">Anurag<br><em>Kumar</em></h1>
+    <p class="hero-tagline">Founder, marketer & builder — from Bhagalpuri silk to digital products.</p>
+    <div class="hero-cta-row">
+      <a href="#projects" class="btn-primary">View Work</a>
+      <a href="mailto:anuragkumar662006@gmail.com" class="btn-ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-number">₹7.8L</div>
+      <div class="stat-label">Revenue generated · Nisha Fabrics</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">23K+</div>
+      <div class="stat-label">Peak video views · Organic content</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">3+</div>
+      <div class="stat-label">Global export markets · USA & Singapore</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-num">01</div>
+    <h2 class="section-title">A builder at <em>heart,</em><br>a strategist by training.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>At 18, I founded <strong>Nisha Fabrics</strong> — grew it to ₹7.8L revenue in six months, shipped sarees to the USA and Singapore, and learned that execution beats everything.</p>
+      <p>Now I'm at <strong>IIM Jammu</strong> studying IPM, building digital products on the side, writing on LinkedIn, and looking for the next problem worth solving.</p>
+      <p>I sit at the intersection of <strong>marketing, business development, and product thinking</strong> — comfortable both pitching to investors and shipping code.</p>
+    </div>
+    <div class="about-right reveal">
+      <div class="info-row">
+        <div class="info-label">Currently</div>
+        <div class="info-value">IPM · IIM Jammu (2025–2030)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Scholarship</div>
+        <div class="info-value">Raman Kant Munjal — ₹3L/year</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Email</div>
+        <div class="info-value">anuragkumar662006@gmail.com</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Interests</div>
+        <div class="info-value">Startups · Marketing · Technology</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Digital Marketing</span>
+        <span class="skill-tag">Business Development</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Excel</span>
+        <span class="skill-tag">Video Marketing</span>
+        <span class="skill-tag">Content Strategy</span>
+        <span class="skill-tag">Negotiation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding-top: 0;">
+  <div class="section-header reveal" style="padding: 0 0 64px;">
+    <div class="section-num">02</div>
+    <h2 class="section-title">Things I've <em>built.</em></h2>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Featured -->
+    <a href="https://www.youtube.com/channel/UCcxbcS9ED3foELjn5XoknvQ" target="_blank" class="project-card featured reveal">
+      <div>
+        <div class="project-tag">Entrepreneurship · Video Marketing</div>
+        <h3 class="project-title">Nisha Fabrics — YouTube Channel</h3>
+        <p class="project-desc">Founded and scaled Nisha Fabrics at 18. Managed the full YouTube content operation — scripting, filming, editing — and grew from zero to 1,200+ organic followers. Videos hit 23K+, 15K+, and 8K+ views. Revenue: ₹7.8L in six months. International exports to USA & Singapore.</p>
+        <span class="project-link">Visit Channel <span class="project-arrow">↗</span></span>
+      </div>
+      <div class="project-number">01</div>
+    </a>
+
+    <a href="https://anuragkumar06-ship-it.github.io/afterboardsreport/" target="_blank" class="project-card reveal">
+      <div class="project-tag">Ed-Tech · Research</div>
+      <h3 class="project-title">AfterBoards — Ed-Tech Report</h3>
+      <p class="project-desc">A comprehensive competitive intelligence report on AfterBoards, an IPMAT/CUET prep platform. Covers market positioning, feature analysis, and strategic recommendations.</p>
+      <div class="project-link">View Report <span class="project-arrow">↗</span></div>
+      <div class="project-number">02</div>
+    </a>
+
+    <a href="http://afitnessos.lovable.app" target="_blank" class="project-card reveal">
+      <div class="project-tag">Wellness · Product</div>
+      <h3 class="project-title">FitOS — Fitness Tracker</h3>
+      <p class="project-desc">A fully-featured fitness tracking web app with set & exercise management, RPE tracking, session notes, and smart log filtering. Built end-to-end.</p>
+      <div class="project-link">Open App <span class="project-arrow">↗</span></div>
+      <div class="project-number">03</div>
+    </a>
+
+    <a href="https://ai-guided-finances.lovable.app/" target="_blank" class="project-card reveal">
+      <div class="project-tag">Finance · Product</div>
+      <h3 class="project-title">AI Expense Tracker</h3>
+      <p class="project-desc">A fully functional AI-guided expense tracker. Smart categorization, visual dashboards, and conversational finance management — built and shipped independently.</p>
+      <div class="project-link">Open App <span class="project-arrow">↗</span></div>
+      <div class="project-number">04</div>
+    </a>
+
+    <a href="https://anuragkumar06-ship-it.github.io/Momentum-habit-tracker/" target="_blank" class="project-card featured reveal">
+      <div>
+        <div class="project-tag">Productivity · Product</div>
+        <h3 class="project-title">Momentum — Habit Tracker</h3>
+        <p class="project-desc">A clean, motivating habit tracker built with a focus on streak psychology and daily momentum. Designed and developed from scratch with an interactive tutorial flow for video audiences.</p>
+        <span class="project-link">Open App <span class="project-arrow">↗</span></span>
+      </div>
+      <div class="project-number">05</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <div class="section-num">03</div>
+    <h2 class="section-title">Where I've <em>worked.</em></h2>
+  </div>
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-period">Feb '26 — Mar '26</div>
+      <div class="exp-content">
+        <div class="exp-role">Digital Marketing Intern</div>
+        <div class="exp-company">Hello Study Global</div>
+        <ul class="exp-points">
+          <li>Grew Instagram from 1,200 → 2,500 followers (~108%) via targeted content strategy and consistent posting cadence.</li>
+          <li>Planned and executed paid advertising on Instagram & YouTube, generating 90K+ views and expanding brand reach.</li>
+          <li>Developed and optimized content using performance analytics to improve campaign effectiveness.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-period">Sep '23 — Oct '24</div>
+      <div class="exp-content">
+        <div class="exp-role">Founder</div>
+        <div class="exp-company">Nisha Fabrics</div>
+        <ul class="exp-points">
+          <li>Generated ₹7.8L revenue and ₹2.2L profit (28–30% margin) in 6 months selling 260+ Bhagalpuri silk sarees via video marketing & WhatsApp groups.</li>
+          <li>Scaled brand from 0 to 1,200+ organic followers with videos reaching 23K+, 15K+, and 8K+ views.</li>
+          <li>Expanded internationally, exporting to 3+ global markets including the USA and Singapore.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-period">2025 — Present</div>
+      <div class="exp-content">
+        <div class="exp-role">Member</div>
+        <div class="exp-company">EDC · ThinkForge · Empyrean — IIM Jammu</div>
+        <ul class="exp-points">
+          <li>Mentored 150+ student entrepreneurs through the Entrepreneurship Development Cell; volunteered at Innovation Day for 200+ external students.</li>
+          <li>Executed 360° marketing campaigns for Empyrean, reaching 1,500+ students and delivering 20+ high-performing posts.</li>
+          <li>Fostered design thinking and critical reasoning through structured sessions at ThinkForge.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-header reveal">
+    <div class="section-num">04</div>
+    <h2 class="section-title">Recognition &amp; <em>awards.</em></h2>
+  </div>
+  <div class="achievements-grid">
+    <div class="ach-card reveal">
+      <div class="ach-icon">🏆</div>
+      <h3 class="ach-title">Raman Kant Munjal Scholarship</h3>
+      <p class="ach-desc">Merit-based scholarship valued at ₹3 lakh per year for 3 years, recognizing academic excellence and leadership potential.</p>
+      <span class="ach-badge">₹9L Total Value</span>
+    </div>
+    <div class="ach-card reveal">
+      <div class="ach-icon">🥇</div>
+      <h3 class="ach-title">SRCC Innerve 4.0 — National Finalist</h3>
+      <p class="ach-desc">Secured National Finalist position in the SRCC Business Plan Competition, ranking among the top teams out of 1,500+ entries.</p>
+      <span class="ach-badge">Top 1,500+ Entries</span>
+    </div>
+    <div class="ach-card reveal">
+      <div class="ach-icon">🥉</div>
+      <h3 class="ach-title">Enigma — 3rd Place</h3>
+      <p class="ach-desc">Achieved 3rd place in the technical problem-solving competition at IIM Jammu, demonstrating advanced analytical and strategic thinking.</p>
+      <span class="ach-badge">IIM Jammu</span>
+    </div>
+    <div class="ach-card reveal">
+      <div class="ach-icon">🌍</div>
+      <h3 class="ach-title">Hult Prize — Campus Finalist</h3>
+      <p class="ach-desc">Secured Finalist Position in the On-Campus Round, leading end-to-end development and pitch of a scalable social venture.</p>
+      <span class="ach-badge">Social Innovation</span>
+    </div>
+    <div class="ach-card reveal">
+      <div class="ach-icon">📈</div>
+      <h3 class="ach-title">0 → ₹7.8L Revenue</h3>
+      <p class="ach-desc">Built Nisha Fabrics from scratch to ₹7.8L revenue with 28–30% profit margins in under 6 months, at age 18, while still in school.</p>
+      <span class="ach-badge">Bootstrapped</span>
+    </div>
+    <div class="ach-card reveal">
+      <div class="ach-icon">🌐</div>
+      <h3 class="ach-title">International Exports at 18</h3>
+      <p class="ach-desc">Independently managed exports to 3+ global markets including the USA and Singapore — no external support, pure execution.</p>
+      <span class="ach-badge">USA · Singapore</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <h2 class="big-text">Let's build<br>something <em>together.</em></h2>
+      <a href="mailto:anuragkumar662006@gmail.com" class="contact-email">anuragkumar662006@gmail.com</a>
+    </div>
+    <div class="contact-right reveal">
+      <a href="mailto:anuragkumar662006@gmail.com" class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">anuragkumar662006@gmail.com</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="https://www.youtube.com/channel/UCcxbcS9ED3foELjn5XoknvQ" target="_blank" class="contact-item">
+        <div class="contact-item-icon">▶️</div>
+        <div>
+          <div class="contact-item-label">YouTube</div>
+          <div class="contact-item-value">Nisha Fabrics Channel</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/anurag-kumar-iimj/" target="_blank" class="contact-item">
+        <div class="contact-item-icon">🔗</div>
+        <div>
+          <div class="contact-item-label">LinkedIn</div>
+          <div class="contact-item-value">linkedin.com/in/anurag-kumar-iimj</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Anurag Kumar</span>
+  <span class="footer-copy">IPM · IIM Jammu · Batch 05 · 2026</span>
+</footer>
+
+<script>
+  // Detect touch device — disable cursor
+  const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+
+  if (!isTouch) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a').forEach(a => {
+      a.addEventListener('mouseenter', () => { ring.style.transform += ' scale(1.5)'; ring.style.opacity = '0.8'; });
+      a.addEventListener('mouseleave', () => { ring.style.opacity = '0.5'; });
+    });
+  } else {
+    cursor.style.display = 'none';
+    ring.style.display = 'none';
+    document.body.style.cursor = 'auto';
+  }
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hamburger / mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+
+  function openMenu() {
+    menuOpen = true;
+    mobileMenu.style.display = 'flex';
+    requestAnimationFrame(() => mobileMenu.classList.add('open'));
+    hamburger.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (!menuOpen) mobileMenu.style.display = 'none'; }, 350);
+  }
+
+  hamburger.addEventListener('click', e => { e.stopPropagation(); menuOpen ? closeMenu() : openMenu(); });
+  mobileMenu.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mobile-nav-link').forEach(a => {
+    a.addEventListener('click', closeMenu);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
